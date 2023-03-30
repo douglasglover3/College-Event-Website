@@ -29,7 +29,7 @@ export default function Register({setUser, type}) {
              //Success
             .then((res) =>
             {
-                setUser(res.data[0]);
+                setUser(res.data);
                 navigate("/");
             })
             //Failure

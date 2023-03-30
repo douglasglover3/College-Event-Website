@@ -17,17 +17,42 @@ export default function App() {
     // if logged in
     if(user)
     {
-        return (
-            <StrictMode>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Error errorType="Successful Login."/>}/>
-                        <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                        <Route path="*" element={<Error errorType="Page does not exist."/>}/>
-                    </Routes>
-                </Router>
-            </StrictMode>
-        );
+        if(user.type === "Student")
+            return (
+                <StrictMode>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<Error errorType="Successful Login as Student."/>}/>
+                            <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
+                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
+                        </Routes>
+                    </Router>
+                </StrictMode>
+            );
+        else if(user.type === "RSO Admin")
+            return (
+                <StrictMode>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<Error errorType="Successful Login as RSO Admin."/>}/>
+                            <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
+                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
+                        </Routes>
+                    </Router>
+                </StrictMode>
+            );
+        else if(user.type === "Super Admin")
+            return (
+                <StrictMode>
+                    <Router>
+                        <Routes>
+                            <Route path="/" element={<Error errorType="Successful Login as Super Admin."/>}/>
+                            <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
+                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
+                        </Routes>
+                    </Router>
+                </StrictMode>
+            );
     }
     // if not logged in
     return (

@@ -32,7 +32,7 @@ router.post("/createUser", (req, res) => {
     userID: req.body.userID,
     hashedPass: req.body.hashedPass,
     university: req.body.university,
-    type: type
+    type: req.body.type
   });
 
   // Find if userID already exists
@@ -100,8 +100,8 @@ router.post("/loginUser", (req, res) => {
         //Password correct
         if(data[0].hashedPass === targetUser.hashedPass)
         {
-          res.status(200).send(data);
-          console.log("Successfully logged in User: ", { ...targetUser });
+          res.status(200).send(data[0]);
+          console.log("Successfully logged in User: ", { ...data[0] });
         }
         //Password Incorrect
         else {

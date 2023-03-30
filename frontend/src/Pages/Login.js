@@ -25,7 +25,7 @@ export default function Login({setUser}) {
             //Success
             .then((res) =>
             {
-                setUser(res.data[0]);
+                setUser(res.data);
                 navigate("/");
             })
             //Failure
