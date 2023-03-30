@@ -1,0 +1,117 @@
+body {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(67, 44, 196);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+p {
+  margin-top: 1em
+}
+h1 {
+  margin-bottom: 0
+}
+h2 {
+  margin-bottom: 0
+}
+h3 {
+  margin-bottom: 0
+}
+h4 {
+  margin-bottom: 0
+}
+h5 {
+  margin-bottom: 0
+}
+h6 {
+  margin-bottom: 0
+}
+
+.btn {
+  height: 100%;
+  width: 150px;
+  border-width: 0;
+  font-size: 1em;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.btn:hover {
+  background-color: rgb(219, 219, 219);
+  color:black;
+}
+.btn:active {
+  background-color: rgb(222, 176, 176);
+  color:black;
+}
+.dropdown-item:active {
+  background-color: rgb(222, 176, 176);
+}
+
+.btn.dropdown-toggle.btn-primary {
+  background-color: white;
+  color:black;
+}
+.btn.dropdown-toggle.btn-primary:hover{
+  background-color: rgb(219, 219, 219);
+}
+
+.btn.dropdown-toggle.btn-primary:active{
+  background-color: rgb(222, 176, 176);
+}
+.btn.dropdown-toggle.btn-primary:focus{
+  box-shadow:none;
+}
+.dropdown {
+  height:100%
+}
+
+.dropbutton {
+  height: 100%;
+  width: 250px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
+  border-width: 0;
+  background-color: white;
+  color:black;
+  padding: 10px;
+  font-size: 1em;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.dropbutton:hover {
+  background-color: rgb(219, 219, 219);
+}
+
+.lowershadow {
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.dark {
+  background-color: rgb(63, 44, 156);
+  color: white;
+}
+
+.regular {
+  background-color: rgb(54, 44, 196);
+  color: white;
+}
+
+.light {
+  background-color: rgb(218, 212, 255);
+  color: black;
+}
+
+.offwhite {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.white {
+  background-color: white;
+  color: black;
+}

@@ -1,0 +1,14 @@
+
+.homebutton {
+    min-height: 100%;
+    border-width: 0;
+    background-color: white;
+    align-items: center;
+    color:black;
+    font-size: 1em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif
+}
+.homebutton:hover {
+    background-color: rgb(219, 219, 219);
+}
+
