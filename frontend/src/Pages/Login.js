@@ -11,6 +11,8 @@ export default function Login({setUser}) {
     const [userID, setUserID] = useState("");
     const [password, setPassword] = useState("");
 
+    const [errorText, setErrorText] = useState("")
+
     let navigate = useNavigate();
     
     async function loginUser()
@@ -19,31 +21,40 @@ export default function Login({setUser}) {
             Axios.post(API_URL + "/users/loginUser", {
                 userID: userID,
                 hashedPass: await getHash(password),
-            }).then((res) =>
+            })
+            //Success
+            .then((res) =>
             {
-                if(res.statusText !== "OK")
-                {
-                    navigate("/error");
+                setUser(res.data[0]);
+                navigate("/");
+            })
+            //Failure
+            .catch((res) =>
+            {
+                //User error
+                if (res.response.status == 400){
+                    setErrorText(res.response.data.message)
+                    console.log(res.response.data.message);
                 }
-                else if(res.data === "User does not exist.")
-                {
-                    console.log(res.data)
-                }
-                else if (res.data === "Password incorrect.")
-                {
-                    console.log(res.data)
-                }
+                //Unknown error
                 else {
-                    setUser(res.data[0]);
-                    navigate("/");
+                    setErrorText("Login failed due to server error. Please try again later.")
+                    console.log("Login failed due to server error. Please try again later.");
                 }
             })
     }
 
     function validateInputs()
     {
+        if(userID === "")
+        {
+            setErrorText("UserID must be filled.")
+            console.log("UserID must be filled.")
+            return false;
+        }
         if(password === "")
         {
+            setErrorText("Password must be filled.")
             console.log("Password must be filled.")
             return false;
         }
@@ -68,11 +79,11 @@ export default function Login({setUser}) {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder='Enter password' onChange = {(input) =>{setPassword(input.target.value)}}/>
                         </Form.Group>
-                        <p>Don't have an account? Click here to register.</p>
+                        <p>Don't have an account? <b style={{cursor: "pointer"}} onClick={() => navigate("/register")}> Click here to register. </b></p>
                         <Button className="regular" type="button" onClick={() => loginUser()}>
                             Login
                         </Button>
-                        
+                    <p style={{color: "red"}}>{errorText}</p>
                 </div>
             </Section>
         </div>
