@@ -7,7 +7,7 @@ import { API_URL } from '../info';
 import sha256 from "js-sha256"
 import {useNavigate} from "react-router-dom"
 
-export default function Register({setUser, type}) {
+export default function Register({setUser}) {
     const [userID, setUserID] = useState(null);
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -24,7 +24,7 @@ export default function Register({setUser, type}) {
                 userID: userID,
                 hashedPass: await getHash(password),
                 university: university,
-                type: type
+                type: "Student"
             })
              //Success
             .then((res) =>
@@ -74,7 +74,7 @@ export default function Register({setUser, type}) {
         <div>
             <Section color="white">
                 <div style={{width:"70%"}}>
-                    <h4 style={{marginBottom:"30px"}}>Register as a {type}</h4>
+                    <h4 style={{marginBottom:"30px"}}>Register as a Student</h4>
                         <Form.Group className="mb-2">
                             <Form.Label>University Name</Form.Label>
                             <Form.Control type="text" placeholder='University Name' onChange = {(input) =>{setUniversity(input.target.value)}}/>

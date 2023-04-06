@@ -1,5 +1,4 @@
 import Login from './Pages/Login';
-import AccountType from './Pages/AccountType';
 import Register from './Pages/Register';
 import Error from './Pages/Error';
 
@@ -24,7 +23,7 @@ export default function App() {
                         <Routes>
                             <Route path="/" element={<Error errorType="Successful Login as Student."/>}/>
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
+                            <Route path="*" element={<Navigate to='/'/>}/>
                         </Routes>
                     </Router>
                 </StrictMode>
@@ -36,7 +35,7 @@ export default function App() {
                         <Routes>
                             <Route path="/" element={<Error errorType="Successful Login as RSO Admin."/>}/>
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
+                            <Route path="*" element={<Navigate to='/'/>}/>
                         </Routes>
                     </Router>
                 </StrictMode>
@@ -62,10 +61,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<Navigate to='/login'/>}/>
                     <Route path="/login" element={<Login setUser={setUser}/>}/>
-                    <Route path="/register" element={<AccountType setUser={setUser}/>}/>
-                    <Route path="/register/student" element={<Register setUser={setUser} type={"Student"}/>}/>
-                    <Route path="/register/admin" element={<Register setUser={setUser} type={"RSO Admin"}/>}/>
-                    <Route path="/register/superadmin" element={<Register setUser={setUser} type={"Super Admin"}/>}/>
+                    <Route path="/register" element={<Register setUser={setUser}/>}/>
                     <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
                     <Route path="*" element={<Error errorType="Page does not exist."/>}/>
                 </Routes>
