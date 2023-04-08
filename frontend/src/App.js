@@ -30,7 +30,7 @@ export default function App() {
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
                             <Route path="/RSO" element={<UserRSOs user={user}/>}/>
                             <Route path="/newRSO" element={<CreateRso user={user}/>}/>
-                            <Route path="/RSO/*" element={<RSOPage/>}/>
+                            <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
                             <Route path="*" element={<Navigate to='/'/>}/>
                         </Routes>
                     </Router>

@@ -1,7 +1,6 @@
 import {SectionHeader} from '../Components/Section';
 import {RSOList} from '../Components/RSOList';
 import {useState, useEffect} from "react";
-import {Button} from "react-bootstrap";
 import NavigationButton from '../Components/NavigationButton';
 import Axios from "axios"
 import { API_URL } from '../info';
@@ -13,10 +12,6 @@ export default function UserRSOs({user}) {
         {rsoName: "Dumb Club"},
         {rsoName: "GDSA Club"},
     ]);
-
-    function joinRso(){
-        
-    }
 
     useEffect(() => {
         Axios.post(API_URL + "/rsos/getUserRSOs", {
@@ -33,11 +28,11 @@ export default function UserRSOs({user}) {
     return (
         <div>
             <SectionHeader color="dark">
-                <h3>Your RSOs</h3> <NavigationButton className="light" urlTag="/newRSO"><h5>Create RSO</h5></NavigationButton>
+                <h3>Your RSOs</h3>
             </SectionHeader>
             <RSOList rsos={rsos} footer={
                 <div style={{display: "flex", justifyContent:"center", margin: "20px", width:"100%"}}>
-                    <Button className="white" type="button" style={{padding: "10px", width:"300px"}} onClick={() => joinRso()}><h5>Join New RSO</h5></Button>
+                    <NavigationButton className="white" style={{padding: "10px", margin: "5px", width:"300px"}} urlTag="/newRSO"><h5>Create New RSO</h5></NavigationButton>
                 </div>
             }/>
         </div>

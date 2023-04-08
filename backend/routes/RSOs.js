@@ -72,6 +72,62 @@ router.post("/createRSO", (req, res) => {
     });
 });
 
+router.post("/joinRSO", (req, res) => {
+    if (!req.body.rsoName) {
+        res.status(400).send({
+          message: "Missing Name."
+        });
+    }
+    else if (!req.body.userID) {
+        res.status(500).send({
+          message: "Missing user ID."
+        });
+    }
+
+    sql.query("INSERT INTO membership(rsoName, userID, joinDate) VALUES(?,?, NOW())", [req.body.rsoName, req.body.userID], (err, data) => 
+    {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while joining the RSO."
+            });
+            console.log("Error joining RSO: ", { err: err.message});
+        }
+        else {
+            res.status(200).send(data);
+            console.log("Successfully joined RSO: ", req.body.rsoName);
+        }
+    });
+});
+
+router.post("/leaveRSO", (req, res) => {
+    if (!req.body.rsoName) {
+        res.status(400).send({
+          message: "Missing Name."
+        });
+    }
+    else if (!req.body.userID) {
+        res.status(500).send({
+          message: "Missing user ID."
+        });
+    }
+
+    sql.query("DELETE FROM membership WHERE rsoName = ? AND userID = ?", [req.body.rsoName, req.body.userID], (err, data) => 
+    {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while leaving the RSO."
+            });
+            console.log("Error leaving RSO: ", { err: err.message});
+        }
+        else {
+            res.status(200).send(data);
+            console.log("Successfully left RSO: ", req.body.rsoName);
+        }
+    });
+});
+
 router.post("/getUserRSOs", (req, res) => {
     if (!req.body.userID) {
         res.status(500).send({
@@ -89,6 +145,35 @@ router.post("/getUserRSOs", (req, res) => {
         }
         else {
             res.status(200).send(data);
+        }
+    });
+});
+
+router.post("/isUserMember", (req, res) => {
+    if (!req.body.rsoName) {
+        res.status(400).send({
+          message: "Missing Name."
+        });
+    }
+    else if (!req.body.userID) {
+        res.status(500).send({
+          message: "Missing user ID."
+        });
+    }
+
+    sql.query("SELECT * FROM membership WHERE rsoName = ? AND userID = ?", [req.body.rsoName, req.body.userID], (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while finding RSOs."
+            });
+            console.log("Error getting RSOs: ", { err: err.message });
+        }
+        else {
+            if(data.length == 0)
+                res.status(200).send(false);
+            else
+                res.status(200).send(true);
         }
     });
 });
