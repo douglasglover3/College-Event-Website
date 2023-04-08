@@ -11,7 +11,7 @@ export function Section ({ children, color }) {
 export function SectionHeader ({ children, color }) {
 
     return (
-        <div className={color + " lowershadow"} style={{ display: "flex", alignItems: "center", justifyContent:"space-around", paddingBlock:"10px", paddingInline:"100px"}}>
+        <div className={color + " lowershadow"} style={{ display: "flex", alignItems: "center", justifyContent:"space-between", paddingBlock:"10px", paddingInline:"100px"}}>
             {children}
         </div>
     );

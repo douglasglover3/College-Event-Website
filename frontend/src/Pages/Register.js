@@ -1,6 +1,6 @@
 import "../index.css"
 import { Form, Button} from 'react-bootstrap';
-import {Section, SectionHeader} from '../Components/Section';
+import {Section} from '../Components/Section';
 import {useState} from "react";
 import Axios from "axios"
 import { API_URL } from '../info';
@@ -24,7 +24,7 @@ export default function Register({setUser}) {
                 userID: userID,
                 hashedPass: await getHash(password),
                 university: university,
-                type: "Student"
+                userType: "Student"
             })
              //Success
             .then((res) =>
@@ -36,14 +36,14 @@ export default function Register({setUser}) {
             .catch((res) =>
             {
                 //User error
-                if (res.response.status == 400){
+                if (res.response.status === 400){
                     setErrorText(res.response.data.message);
                     console.log(res.response.data.message);
                 }
                 //Unknown error
                 else {
                     setErrorText("Registration failed due to server error. Please try again later.")
-                    console.log("Registration failed due to server error. Please try again later.");
+                    console.log(res.response.data.message);
                 }
             })
     }
@@ -74,7 +74,7 @@ export default function Register({setUser}) {
         <div>
             <Section color="white">
                 <div style={{width:"70%"}}>
-                    <h4 style={{marginBottom:"30px"}}>Register as a Student</h4>
+                    <h4 style={{marginBottom:"30px"}}>Register an Account</h4>
                         <Form.Group className="mb-2">
                             <Form.Label>University Name</Form.Label>
                             <Form.Control type="text" placeholder='University Name' onChange = {(input) =>{setUniversity(input.target.value)}}/>

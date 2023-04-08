@@ -1,6 +1,6 @@
 import "../index.css"
 import { Form, Button} from 'react-bootstrap';
-import {Section, SectionHeader} from '../Components/Section';
+import {Section} from '../Components/Section';
 import {useState} from "react";
 import Axios from "axios"
 import { API_URL } from '../info';
@@ -32,7 +32,7 @@ export default function Login({setUser}) {
             .catch((res) =>
             {
                 //User error
-                if (res.response.status == 400){
+                if (res.response.status === 400){
                     setErrorText(res.response.data.message)
                     console.log(res.response.data.message);
                 }

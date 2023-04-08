@@ -21,7 +21,7 @@ router.post("/createUser", (req, res) => {
       message: "Missing University."
     });
   }
-  if (!req.body.type) {
+  if (!req.body.userType) {
     res.status(500).send({
       message: "Type is missing."
     });
@@ -32,11 +32,11 @@ router.post("/createUser", (req, res) => {
     userID: req.body.userID,
     hashedPass: req.body.hashedPass,
     university: req.body.university,
-    type: req.body.type
+    userType: req.body.userType
   });
 
   // Find if userID already exists
-  sql.query("SELECT * FROM Users WHERE userID = ?", newUser.userID, (err, data) => {
+  sql.query("SELECT * FROM users WHERE userID = ?", newUser.userID, (err, data) => {
     if (err) {
         res.status(500).send({
             message:
@@ -56,8 +56,12 @@ router.post("/createUser", (req, res) => {
             console.log("Error creating User: ", { err: err.message, ...newUser });
         }
         else {
-            res.status(200).send(data);
-            console.log("Successfully created User: ", { ...newUser });
+            res.status(200).send({
+              userID: data.userID,
+              university: data.university,
+              type: "Student"
+            });
+            console.log("Successfully created User: ", data.userID);
         }
       });
     }
@@ -87,7 +91,7 @@ router.post("/loginUser", (req, res) => {
   });
 
   // Find target user in the database
-  sql.query("SELECT * FROM Users WHERE userID = ?", targetUser.userID, (err, data) => {
+  sql.query("SELECT * FROM users WHERE userID = ?", targetUser.userID, (err, data) => {
       if (err) {
           res.status(500).send({
               message:
@@ -100,8 +104,12 @@ router.post("/loginUser", (req, res) => {
         //Password correct
         if(data[0].hashedPass === targetUser.hashedPass)
         {
-          res.status(200).send(data[0]);
-          console.log("Successfully logged in User: ", { ...data[0] });
+          res.status(200).send({
+            userID: data[0].userID,
+            university: data[0].university,
+            type: data[0].userType
+          });
+          console.log("Successfully logged in User: ", data[0].userID);
         }
         //Password Incorrect
         else {
