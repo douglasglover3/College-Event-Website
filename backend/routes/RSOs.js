@@ -191,7 +191,7 @@ router.post("/isUserMember", (req, res) => {
           message: "Missing user ID."
         });
     }
-
+    //Check if user is member
     sql.query("SELECT * FROM membership WHERE rsoName = ? AND userID = ?", [req.body.rsoName, req.body.userID], (err, data) => {
         if (err) {
             res.status(500).send({
@@ -201,10 +201,29 @@ router.post("/isUserMember", (req, res) => {
             console.log("Error getting RSOs: ", { err: err.message });
         }
         else {
+            //User is not member
             if(data.length == 0)
-                res.status(200).send(false);
+                res.status(200).send({isMember:false, isAdmin:false});
+            //User is member
             else
-                res.status(200).send(true);
+                //Check if user is admin
+                sql.query("SELECT * FROM ownership WHERE rsoName = ? AND adminID = ?", [req.body.rsoName, req.body.userID], (err, data) => {
+                    if (err) {
+                        res.status(500).send({
+                            message:
+                                err.message || "Some error occurred while finding RSOs."
+                        });
+                        console.log("Error getting RSOs: ", { err: err.message });
+                    }
+                    else {
+                        //User is not admin
+                        if(data.length == 0)
+                            res.status(200).send({isMember:false, isAdmin:false});
+                        //User is admin
+                        else
+                            res.status(200).send({isMember:true, isAdmin:true});
+                    }
+                });
         }
     });
 });

@@ -80,7 +80,7 @@ export default function Login({setUser}) {
                             <Form.Control type="password" placeholder='Enter password' onChange = {(input) =>{setPassword(input.target.value)}}/>
                         </Form.Group>
                         <p>Don't have an account? <b style={{cursor: "pointer"}} onClick={() => navigate("/register")}> Click here to register. </b></p>
-                        <Button className="regular" type="button" onClick={() => loginUser()}>
+                        <Button className="regular" type="button" style={{height:"40px"}} onClick={() => loginUser()}>
                             Login
                         </Button>
                     <p style={{color: "red"}}>{errorText}</p>

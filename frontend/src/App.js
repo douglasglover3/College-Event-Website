@@ -6,6 +6,9 @@ import UserRSOs from './Pages/UserRSOs';
 import RSOPage from './Pages/RSOPage';
 import CreateRso from './Pages/CreateRso';
 
+import EventPage from './Pages/EventPage';
+import CreateEvent from './Pages/CreateEvent';
+
 import UniversityPage from './Pages/UniversityPage'
 
 import Header from './Components/Header';
@@ -17,7 +20,7 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 
 export default function App() {
     //logged in users data
-    const [user, setUser] = useState();
+    const [user, setUser] = useState({userID: "Doug2", type: "Student"});
 
     // if logged in
     if(user)
@@ -32,6 +35,8 @@ export default function App() {
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
                             <Route path="/RSO" element={<UserRSOs user={user}/>}/>
                             <Route path="/newRSO" element={<CreateRso user={user}/>}/>
+                            <Route path="/Event/*" element={<EventPage user={user}/>}/>
+                            <Route path="/newEvent/*" element={<CreateEvent user={user}/>}/>
                             <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
                             <Route path="/University" element={<UniversityPage user={user}/>}/>
                             <Route path="*" element={<Navigate to='/'/>}/>

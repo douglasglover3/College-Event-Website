@@ -2,7 +2,7 @@
 export function Section ({ children, color }) {
 
     return (
-        <div className={color} style={{display: "flex", alignItems: "center", justifyContent:"space-around", paddingBlock:"60px", paddingInline:"100px",}}>
+        <div className={color} style={{display: "flex", paddingBlock:"60px", paddingInline:"100px",}}>
             {children}
         </div>
     );

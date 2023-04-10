@@ -13,7 +13,7 @@ export default function Register({setUser}) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [university, setUniversity] = useState(null);
-    const loadList = [];
+    var loadList = [];
     const [universityList, setUniversityList] = useState(null);
 
     const [errorText, setErrorText] = useState("")
@@ -21,10 +21,12 @@ export default function Register({setUser}) {
     let navigate = useNavigate();
 
     useEffect(() => {
+        
         Axios.post(API_URL + "/universities/getAllUniversities")
         //Success
         .then((res) =>
         {
+            loadList = [];
             res.data.forEach((university) => {
                 loadList.push({
                     value: university.universityName,
@@ -113,7 +115,7 @@ export default function Register({setUser}) {
                             <Form.Control type="password" placeholder='Re-enter password' onChange = {(input) =>{setPasswordConfirm(input.target.value)}}/>
                         </Form.Group>
                         <p>Already have an account? <b style={{cursor: "pointer"}} onClick={() => navigate("/login")}> Click here. </b></p>
-                        <Button className="regular" type="button" onClick={() => registerUser()}>
+                        <Button className="regular" type="button" style={{height:"40px"}} onClick={() => registerUser()}>
                             Register
                         </Button>
                     <p style={{color: "red"}}>{errorText}</p>
