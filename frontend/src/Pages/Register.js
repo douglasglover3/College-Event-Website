@@ -1,7 +1,8 @@
 import "../index.css"
 import { Form, Button} from 'react-bootstrap';
+import Select from "react-select"
 import {Section} from '../Components/Section';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Axios from "axios"
 import { API_URL } from '../info';
 import sha256 from "js-sha256"
@@ -12,10 +13,30 @@ export default function Register({setUser}) {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [university, setUniversity] = useState(null);
+    const loadList = [];
+    const [universityList, setUniversityList] = useState(null);
 
     const [errorText, setErrorText] = useState("")
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        Axios.post(API_URL + "/users/getUniversities")
+        //Success
+        .then((res) =>
+        {
+            res.data.forEach((university) => {
+                loadList.push({
+                    value: university.universityName,
+                    label: university.universityName
+                })
+            })
+            setUniversityList(loadList);
+        })
+        //Failure
+        .catch((res) =>
+            console.log(res.response.data.message));
+    },[]);
     
     async function registerUser()
     {
@@ -77,7 +98,7 @@ export default function Register({setUser}) {
                     <h4 style={{marginBottom:"30px"}}>Register an Account</h4>
                         <Form.Group className="mb-2">
                             <Form.Label>University Name</Form.Label>
-                            <Form.Control type="text" placeholder='University Name' onChange = {(input) =>{setUniversity(input.target.value)}}/>
+                            <Select className="dropdown" options={universityList} onChange={(input) => {setUniversity(input.value)}}/>
                         </Form.Group>
                         <Form.Group className="mb-2">
                             <Form.Label>User ID</Form.Label>

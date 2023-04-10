@@ -31,7 +31,6 @@ router.post("/createUser", (req, res) => {
   const newUser = new User({
     userID: req.body.userID,
     hashedPass: req.body.hashedPass,
-    university: req.body.university,
     userType: req.body.userType
   });
 
@@ -53,15 +52,26 @@ router.post("/createUser", (req, res) => {
                 message:
                     err.message || "Some error occurred while creating the user."
             });
-            console.log("Error creating User: ", { err: err.message, ...newUser });
+            console.log("Error 1 creating User: ", { err: err.message, ...newUser });
         }
         else {
-            res.status(200).send({
-              userID: data.userID,
-              university: data.university,
-              type: "Student"
-            });
-            console.log("Successfully created User: ", data.userID);
+          sql.query("INSERT INTO affiliation(userID, universityName) VALUES(?, ?)", [req.body.userID, req.body.university], (err, data) => {
+            if (err) {
+              res.status(500).send({
+                  message:
+                      err.message || "Some error occurred while creating the user."
+              });
+              console.log("Error creating User: ", { err: err.message, ...newUser });
+            }
+            else {
+              res.status(200).send({
+                userID: data.userID,
+                university: data.university,
+                type: "Student"
+              });
+              console.log("Successfully created User: ", data.userID);
+            }
+          });
         }
       });
     }
@@ -130,6 +140,23 @@ router.post("/loginUser", (req, res) => {
       }
   });
 });
+
+router.post("/getUniversities", (req, res) => {
+  // Find target user in the database
+  sql.query("SELECT universityName FROM universities", (err, data) => {
+      if (err) {
+          res.status(500).send({
+              message:
+                  err.message || "Some error occurred while logging in."
+          });
+          console.log("Error logging in User: ", { err: err.message, ...targetUser });
+      }
+      else {
+        res.status(200).send(data);
+      }
+  });
+});
+
 
 
 module.exports = router;
