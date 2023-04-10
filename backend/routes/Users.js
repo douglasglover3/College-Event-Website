@@ -69,7 +69,7 @@ router.post("/createUser", (req, res) => {
                 university: data.university,
                 type: "Student"
               });
-              console.log("Successfully created User: ", data.userID);
+              console.log("Successfully created User: ", data.userID, data.type);
             }
           });
         }
@@ -119,7 +119,7 @@ router.post("/loginUser", (req, res) => {
             university: data[0].university,
             type: data[0].userType
           });
-          console.log("Successfully logged in User: ", data[0].userID);
+          console.log("Successfully logged in User: ", data[0].userID, data[0].userType);
         }
         //Password Incorrect
         else {
@@ -141,22 +141,25 @@ router.post("/loginUser", (req, res) => {
   });
 });
 
-router.post("/getUniversities", (req, res) => {
-  // Find target user in the database
-  sql.query("SELECT universityName FROM universities", (err, data) => {
+router.post("/getRSOUsers", (req, res) => {
+  if (!req.body.rsoName) {
+      res.status(500).send({
+        message: "Missing RSO Name."
+      });
+  }
+
+  sql.query("SELECT * FROM users U WHERE EXISTS(SELECT * FROM membership M WHERE U.userID = M.userID AND M.rsoName = ?)", req.body.rsoName, (err, data) => {
       if (err) {
           res.status(500).send({
               message:
-                  err.message || "Some error occurred while logging in."
+                  err.message || "Some error occurred while finding users."
           });
-          console.log("Error logging in User: ", { err: err.message, ...targetUser });
+          console.log("Error getting users: ", { err: err.message });
       }
       else {
-        res.status(200).send(data);
+          res.status(200).send(data);
       }
   });
 });
-
-
 
 module.exports = router;

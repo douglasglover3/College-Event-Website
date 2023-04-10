@@ -178,4 +178,25 @@ router.post("/isUserMember", (req, res) => {
     });
 });
 
+router.post("/getUniversityRSOs", (req, res) => {
+    if (!req.body.universityName) {
+        res.status(500).send({
+          message: "Missing University Name."
+        });
+    }
+
+    sql.query("SELECT * FROM rsos R WHERE EXISTS(SELECT * FROM rsoaffiliation A WHERE R.rsoName = A.rsoName AND A.universityName = ?)", req.body.universityName, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while finding RSOs."
+            });
+            console.log("Error getting RSOs: ", { err: err.message });
+        }
+        else {
+            res.status(200).send(data);
+        }
+    });
+});
+
 module.exports = router;

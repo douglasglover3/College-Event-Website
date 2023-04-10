@@ -21,7 +21,7 @@ export default function Register({setUser}) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        Axios.post(API_URL + "/users/getUniversities")
+        Axios.post(API_URL + "/universities/getAllUniversities")
         //Success
         .then((res) =>
         {

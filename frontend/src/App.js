@@ -6,6 +6,8 @@ import UserRSOs from './Pages/UserRSOs';
 import RSOPage from './Pages/RSOPage';
 import CreateRso from './Pages/CreateRso';
 
+import UniversityPage from './Pages/UniversityPage'
+
 import Header from './Components/Header';
 
 import {useState, StrictMode} from "react";
@@ -20,17 +22,18 @@ export default function App() {
     // if logged in
     if(user)
     {
-        if(user.type === "Student" || user.type === "RSO Admin")
+        if(user.type === "Student" || user.type === "Admin")
             return (
                 <StrictMode>
                     <Router>
                         <Header setUser={setUser} type={user.type}/>
                         <Routes>
-                            <Route path="/" element={<Error errorType="Successful Login as Student."/>}/>
+                            <Route path="/" element={<Error errorType='Successful Login'/>}/>
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
                             <Route path="/RSO" element={<UserRSOs user={user}/>}/>
                             <Route path="/newRSO" element={<CreateRso user={user}/>}/>
                             <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
+                            <Route path="/University" element={<UniversityPage user={user}/>}/>
                             <Route path="*" element={<Navigate to='/'/>}/>
                         </Routes>
                     </Router>
