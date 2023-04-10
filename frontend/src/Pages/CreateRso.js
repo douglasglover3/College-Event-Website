@@ -58,6 +58,8 @@ export default function CreateRso({user}) {
             <Section color="white">
                 <div style={{width:"70%"}}>
                     <h4 style={{marginBottom:"30px"}}>Create a New RSO</h4>
+                        <p>Your RSO will remain unregistered until five members with 
+                        <br/> the same email domain have entered the RSO name on this page.</p>
                         <Form.Group className="mb-2">
                             <Form.Label>RSO Name</Form.Label>
                             <Form.Control type="text" placeholder='RSO Name' onChange = {(input) =>{setRSOName(input.target.value)}}/>

@@ -7,11 +7,7 @@ import { API_URL } from '../info';
 
 
 export default function UserRSOs({user}) {
-    const [rsos, setRSOs] = useState([
-        {rsoName: "Chess Club"},
-        {rsoName: "Dumb Club"},
-        {rsoName: "GDSA Club"},
-    ]);
+    const [rsos, setRSOs] = useState([]);
 
     useEffect(() => {
         Axios.post(API_URL + "/rsos/getUserRSOs", {

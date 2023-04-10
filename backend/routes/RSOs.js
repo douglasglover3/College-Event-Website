@@ -61,13 +61,33 @@ router.post("/createRSO", (req, res) => {
                     }
                 });
         }
-        //RSO name is taken
+        //RSO name is taken, so join instead
         else {
-            res.status(400).send({
-            message:
-                "RSO name is taken."
+            sql.query("INSERT INTO membership(rsoName, userID, joinDate) VALUES(?,?, NOW())", [req.body.rsoName, req.body.userID], (err, data) => 
+            {
+                if (err) {
+                    //User already in RSO
+                    if(err.message.includes("Duplicate entry"))
+                    {
+                        res.status(400).send({
+                            message:
+                                "User is already in this RSO."
+                        });
+                        console.log("User is already in this RSO.");
+                    }
+                    else{
+                        res.status(500).send({
+                            message:
+                                err.message || "Some error occurred while joining the RSO."
+                        });
+                        console.log("Error joining RSO: ", { err: err.message});
+                    }
+                }
+                else {
+                    res.status(200).send(data);
+                    console.log("Successfully joined RSO: ", req.body.rsoName);
+                }
             });
-            console.log("RSO name is taken.");
         }
     });
 });
@@ -87,11 +107,22 @@ router.post("/joinRSO", (req, res) => {
     sql.query("INSERT INTO membership(rsoName, userID, joinDate) VALUES(?,?, NOW())", [req.body.rsoName, req.body.userID], (err, data) => 
     {
         if (err) {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while joining the RSO."
-            });
-            console.log("Error joining RSO: ", { err: err.message});
+            //User already in RSO
+            if(err.message.includes("Duplicate entry"))
+            {
+                res.status(400).send({
+                    message:
+                        "User is already in this RSO."
+                });
+                console.log("User is already in this RSO.");
+            }
+            else{
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while joining the RSO."
+                });
+                console.log("Error joining RSO: ", { err: err.message});
+            }
         }
         else {
             res.status(200).send(data);

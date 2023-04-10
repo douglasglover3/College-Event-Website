@@ -46,7 +46,7 @@ router.post("/createUser", (req, res) => {
     //No user with this userID exists
     else if(data.length == 0) {
       // Save user in the database
-      sql.query("INSERT INTO users SET ?", newUser, (err, data) => {
+      sql.query("INSERT INTO users SET ?", newUser, (err, data2) => {
         if (err) {
             res.status(500).send({
                 message:
@@ -55,7 +55,7 @@ router.post("/createUser", (req, res) => {
             console.log("Error 1 creating User: ", { err: err.message, ...newUser });
         }
         else {
-          sql.query("INSERT INTO affiliation(userID, universityName) VALUES(?, ?)", [req.body.userID, req.body.university], (err, data) => {
+          sql.query("INSERT INTO affiliation(userID, universityName) VALUES(?, ?)", [req.body.userID, req.body.university], (err, data3) => {
             if (err) {
               res.status(500).send({
                   message:
@@ -65,11 +65,11 @@ router.post("/createUser", (req, res) => {
             }
             else {
               res.status(200).send({
-                userID: data.userID,
-                university: data.university,
+                userID: req.body.userID,
+                university: req.body.university,
                 type: "Student"
               });
-              console.log("Successfully created User: ", data.userID, data.type);
+              console.log("Successfully created User: ", req.body.userID, req.body.userType);
             }
           });
         }
