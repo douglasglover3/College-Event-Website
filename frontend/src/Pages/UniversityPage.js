@@ -52,7 +52,7 @@ export default function UniversityPage({user}) {
             <div style={{display:"flex", justifyContent:"space-between", marginInline:"100px"}}>
                 <div style={{display:"flex",  width:"50%", flexDirection:"column"}}>
                     <SectionHeader color="regular"><h5>Upcoming Public Events</h5></SectionHeader>
-                    <EventList events={events} footer={<></>}/>
+                    <EventList events={events}/>
                 </div>
                 <div style={{display:"flex", width:"30%", flexDirection:"column", alignSelf:"end"}}>
                     <SectionHeader color="regular">

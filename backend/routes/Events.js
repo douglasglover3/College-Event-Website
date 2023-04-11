@@ -54,6 +54,98 @@ router.post("/createEvent", (req, res) => {
     });
 });
 
+router.post("/getUserEvents", (req, res) => {
+    if (!req.body.userID) {
+        res.status(500).send({
+          message: "Missing User ID."
+        });
+    }
+    if (!req.body.eventType) {
+        res.status(500).send({
+          message: "Missing Event Type."
+        });
+    }
+    var eventData = [];
+    var eventType = req.body.eventType;
+    
+    //RSO events
+    if(eventType == "RSO")
+    {
+        sql.query(
+            "SELECT * FROM events E WHERE EXISTS(SELECT * FROM membership M WHERE M.rsoName = E.sponsor AND M.userID = ?) AND E.eventType = 'RSO'"
+        , req.body.userID, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while getting events."
+                });
+                console.log("Error getting events: ", { err: err.message });
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+    
+    //Private events
+    else if(eventType == "Private")
+    {
+        sql.query(
+            "SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsoaffiliation A, affiliation A2 WHERE A.rsoName = E.sponsor AND A.universityName = A2.universityName AND A2.userID = ?) AND E.eventType = 'Private'"
+        , req.body.userID, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while getting events."
+                });
+                console.log("Error getting events: ", { err: err.message });
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+    //Public events
+    else if(eventType == "Public")
+    {
+        sql.query(
+            "SELECT * FROM events WHERE eventType = 'Public'"
+        , req.body.userID, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while getting events."
+                });
+                console.log("Error getting events: ", { err: err.message });
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+    //All user-related events
+    else
+    {
+        sql.query(
+            `SELECT * FROM events E WHERE (EXISTS(SELECT * FROM membership M WHERE M.rsoName = E.sponsor AND M.userID = ?) AND E.eventType = 'RSO')
+            OR (EXISTS(SELECT * FROM rsoaffiliation A, affiliation A2 WHERE A.rsoName = E.sponsor AND A.universityName = A2.universityName AND A2.userID = ?) AND E.eventType = 'Private')
+            OR (E.eventType = 'Public')
+            `
+        , [req.body.userID, req.body.userID], (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while getting events."
+                });
+                console.log("Error getting events: ", { err: err.message });
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+});
+
 router.post("/getRSOEvents", (req, res) => {
     if (!req.body.rsoName) {
         res.status(500).send({

@@ -2,6 +2,8 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Error from './Pages/Error';
 
+import HomePage from './Pages/HomePage';
+
 import UserRSOs from './Pages/UserRSOs';
 import RSOPage from './Pages/RSOPage';
 import CreateRso from './Pages/CreateRso';
@@ -20,8 +22,8 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 
 export default function App() {
     //logged in users data
-    const [user, setUser] = useState();
-    //{userID: "Doug2", type: "Student"}
+    const [user, setUser] = useState({userID: "Doug2", type: "Student"});
+    
     // if logged in
     if(user)
     {
@@ -31,7 +33,7 @@ export default function App() {
                     <Router>
                         <Header setUser={setUser} type={user.type}/>
                         <Routes>
-                            <Route path="/" element={<Error errorType='Successful Login'/>}/>
+                            <Route path="/" element={<HomePage user={user}/>}/>
                             <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
                             <Route path="/RSO" element={<UserRSOs user={user}/>}/>
                             <Route path="/newRSO" element={<CreateRso user={user}/>}/>

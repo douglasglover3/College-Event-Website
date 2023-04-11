@@ -1,9 +1,9 @@
 import {SectionHeader} from '../Components/Section';
 import NavigationButton from '../Components/NavigationButton';
 
-export default function EventList ({events, footer}) {
+export default function EventList ({events}) {
     return (
-        <div>
+        <div style={{width:"100%"}}>
             {events.map((event) => 
                 <div key={event.eventName}>
                     <SectionHeader color="white">
@@ -20,7 +20,6 @@ export default function EventList ({events, footer}) {
                     <SectionHeader color="light"></SectionHeader>
                 </div>
             )}
-            {footer}
         </div>
     );
 }

@@ -91,7 +91,7 @@ export default function RSOPage({user}) {
             <div style={{display:"flex", justifyContent:"space-between", marginInline:"100px"}}>
                 <div style={{display:"flex",  width:"50%", flexDirection:"column"}}>
                     <SectionHeader color="regular"><h5>Upcoming Events</h5> {admin ? <NavigationButton className="offwhite" style={{width:"200px", height:"40px"}} urlTag={"/newEvent/" + rso.rsoName} extraData={{ rso: rso}}>Create New Event</NavigationButton> : <></>}</SectionHeader>
-                    <EventList events={events} footer={<></>}/>
+                    <EventList events={events}/>
                 </div>
                 <div style={{display:"flex", width:"30%", flexDirection:"column", alignSelf:"end"}}>
                     <SectionHeader color="regular"><h5>RSO Members</h5></SectionHeader>
