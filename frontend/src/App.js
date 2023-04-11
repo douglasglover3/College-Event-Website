@@ -20,8 +20,8 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 
 export default function App() {
     //logged in users data
-    const [user, setUser] = useState({userID: "Doug2", type: "Student"});
-
+    const [user, setUser] = useState();
+    //{userID: "Doug2", type: "Student"}
     // if logged in
     if(user)
     {

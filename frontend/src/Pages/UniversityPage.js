@@ -1,7 +1,5 @@
 import {SectionHeader} from '../Components/Section';
-import {useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {Button} from "react-bootstrap";
 import {RSOList} from '../Components/RSOList';
 import EventList from '../Components/EventList';
 import Axios from "axios"
@@ -53,7 +51,7 @@ export default function UniversityPage({user}) {
             </SectionHeader>
             <div style={{display:"flex", justifyContent:"space-between", marginInline:"100px"}}>
                 <div style={{display:"flex",  width:"50%", flexDirection:"column"}}>
-                    <SectionHeader color="regular"><h5>Upcoming Events</h5></SectionHeader>
+                    <SectionHeader color="regular"><h5>Upcoming Public Events</h5></SectionHeader>
                     <EventList events={events} footer={<></>}/>
                 </div>
                 <div style={{display:"flex", width:"30%", flexDirection:"column", alignSelf:"end"}}>

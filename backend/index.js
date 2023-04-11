@@ -15,6 +15,7 @@ app.use('/users', require('./routes/Users.js'));
 app.use('/rsos', require('./routes/RSOs.js'));
 app.use('/universities', require('./routes/Universities.js'));
 app.use('/events', require('./routes/Events.js'));
+app.use('/interactions', require('./routes/Interactions.js'));
 
 app.listen(PORT, () => {
     console.log("Server running on port " + PORT);

@@ -30,6 +30,7 @@ router.post("/createUser", (req, res) => {
   // Create a new user
   const newUser = new User({
     userID: req.body.userID,
+    email: req.body.email,
     hashedPass: req.body.hashedPass,
     userType: req.body.userType
   });

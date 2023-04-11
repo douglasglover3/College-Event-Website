@@ -10,10 +10,11 @@ import {useNavigate} from "react-router-dom"
 
 export default function Register({setUser}) {
     const [userID, setUserID] = useState(null);
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [university, setUniversity] = useState(null);
-    var loadList = [];
+    
     const [universityList, setUniversityList] = useState(null);
 
     const [errorText, setErrorText] = useState("")
@@ -21,12 +22,11 @@ export default function Register({setUser}) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        
+        var loadList = [];
         Axios.post(API_URL + "/universities/getAllUniversities")
         //Success
         .then((res) =>
         {
-            loadList = [];
             res.data.forEach((university) => {
                 loadList.push({
                     value: university.universityName,
@@ -45,6 +45,7 @@ export default function Register({setUser}) {
         if(validateInputs())
             Axios.post(API_URL + "/users/createUser", {
                 userID: userID,
+                email: email,
                 hashedPass: await getHash(password),
                 university: university,
                 userType: "Student"
@@ -98,10 +99,7 @@ export default function Register({setUser}) {
             <Section color="white">
                 <div style={{width:"70%"}}>
                     <h4 style={{marginBottom:"30px"}}>Register an Account</h4>
-                        <Form.Group className="mb-2">
-                            <Form.Label>University Name</Form.Label>
-                            <Select className="dropdown" options={universityList} onChange={(input) => {setUniversity(input.value)}}/>
-                        </Form.Group>
+                        
                         <Form.Group className="mb-2">
                             <Form.Label>User ID</Form.Label>
                             <Form.Control type="text" placeholder='Enter user ID' onChange = {(input) =>{setUserID(input.target.value)}}/>
@@ -110,10 +108,20 @@ export default function Register({setUser}) {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder='Enter password' onChange = {(input) =>{setPassword(input.target.value)}}/>
                         </Form.Group>
-                        <Form.Group className="mb-2">
+                        <Form.Group className="mb-4">
                             <Form.Label>Confirm Password</Form.Label>
                             <Form.Control type="password" placeholder='Re-enter password' onChange = {(input) =>{setPasswordConfirm(input.target.value)}}/>
                         </Form.Group>
+                        
+                        <Form.Group className="mb-2">
+                            <Form.Label>University Name</Form.Label>
+                            <Select className="dropdown" options={universityList} onChange={(input) => {setUniversity(input.value)}}/>
+                        </Form.Group>
+                        <Form.Group className="mb-2">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder='Enter email' onChange = {(input) =>{setEmail(input.target.value)}}/>
+                        </Form.Group>
+                        
                         <p>Already have an account? <b style={{cursor: "pointer"}} onClick={() => navigate("/login")}> Click here. </b></p>
                         <Button className="regular" type="button" style={{height:"40px"}} onClick={() => registerUser()}>
                             Register

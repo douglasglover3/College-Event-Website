@@ -4,6 +4,8 @@ const router = express.Router()
 const sql = require("../models/db.js");
 const Event = require("../models/Events.js");
 
+const crypto = require('crypto');
+
 
 router.post("/createEvent", (req, res) => {
     if (!req.body.eventName) {
@@ -21,8 +23,9 @@ router.post("/createEvent", (req, res) => {
           message: "Missing sponsor."
         });
     }
-    // Create a new rso
+    // Create a new event
     const newEvent = new Event({
+        eventID: crypto.randomBytes(64).toString("hex"),
         eventName: req.body.eventName,
         eventType: req.body.eventType,
         sponsor: req.body.sponsor,
@@ -34,40 +37,19 @@ router.post("/createEvent", (req, res) => {
         locationName: req.body.locationName
     });
 
-    // Find if event name is taken
-    sql.query("SELECT * FROM events WHERE eventName = ?", newEvent.eventName, (err, data) => {
+    //Save Event in the database
+    sql.query("INSERT INTO events SET ?", newEvent, (err, data) => 
+    {
         if (err) {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the RSO."
+                    err.message || "Some error occurred while creating the event."
             });
             console.log("Error creating Event: ", { err: err.message, ...newEvent });
         }
-        //No event with this name exists
-        else if(data.length == 0) {
-            // Save Event in the database
-            sql.query("INSERT INTO events SET ?", newEvent, (err, data) => 
-                {
-                    if (err) {
-                        res.status(500).send({
-                            message:
-                                err.message || "Some error occurred while creating the event."
-                        });
-                        console.log("Error creating Event: ", { err: err.message, ...newEvent });
-                    }
-                    else {
-                        res.status(200).send(data);
-                        console.log("Successfully created Event: ", newEvent.eventName);
-                    }
-                });
-        }
-        //Event name already exists
         else {
-            res.status(400).send({
-                message:
-                    "Event name is taken."
-            });
-            console.log("Event name is taken.");
+            res.status(200).send(data);
+            console.log("Successfully created Event: ", newEvent.eventName);
         }
     });
 });
@@ -100,7 +82,7 @@ router.post("/getUniversityEvents", (req, res) => {
         });
     }
 
-    sql.query("SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsoaffiliation A WHERE E.sponsor = A.rsoName AND A.universityName = ?)", req.body.universityName, (err, data) => {
+    sql.query("SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsoaffiliation A WHERE E.sponsor = A.rsoName AND A.universityName = ?) AND E.eventType = 'Public'", req.body.universityName, (err, data) => {
         if (err) {
             res.status(500).send({
                 message:

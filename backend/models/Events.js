@@ -1,4 +1,5 @@
 const Event = function(e) {
+    this.eventID = e.eventID;
     this.eventName = e.eventName;
     this.eventType = e.eventType;
     this.sponsor = e.sponsor;

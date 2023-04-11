@@ -1,19 +1,21 @@
 import {SectionHeader} from '../Components/Section';
-import {useLocation, useNavigate} from "react-router-dom";
-import {useState, useEffect} from "react";
-import {Button} from "react-bootstrap";
-import Axios from "axios"
-import { API_URL } from '../info';
+import {useLocation} from "react-router-dom";
+import CommentList from "../Components/CommentList"
+import Rating from "../Components/Rating"
 
 export default function EventPage({user}) {
     const event = useLocation().state.event;
+
     return (
         <div style={{display:"flex", flexDirection:"column"}}>
             <SectionHeader color="dark">
                 <h4>{event.sponsor}</h4>
             </SectionHeader>
             <div className="offwhite">
-                <h3 style={{marginTop:"30px", marginInline:"100px"}}>{event.eventName}</h3>
+                <div style={{marginInline:"100px", marginTop:"30px"}}>
+                    <h3 >{event.eventName}</h3>
+                    <Rating userID={user.userID} eventID={event.eventID}/>
+                </div>
                 <div style={{display:"flex", marginTop:"30px", marginInline:"100px"}}>
                     
                     <div style={{marginRight:"60px"}}>
@@ -33,6 +35,12 @@ export default function EventPage({user}) {
                         <p>{event.contactPhone}</p>
                         <p>{event.contactEmail}</p>
                     </div>
+                </div>
+            </div>
+            <div className="light">
+                <SectionHeader color="regular">Comments</SectionHeader>
+                <div style={{display:"flex", marginTop:"30px", marginInline:"100px"}}>
+                    <CommentList userID={user.userID} eventID={event.eventID}/>
                 </div>
             </div>
         </div>
