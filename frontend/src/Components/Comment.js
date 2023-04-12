@@ -81,7 +81,7 @@ export default function Comment ({userID, comment}) {
                                 <div>
                                     <h6>{comment.userID}</h6> 
                                     <Form.Group className="mb-1" style={{marginTop:"10px"}}>
-                                        <Form.Control as="textarea" rows={3} value={editedText} onChange = {(input) =>{setEditedText(input.target.value)}}/>
+                                        <Form.Control as="textarea" rows={3} defaultValue={editedText} onChange = {(input) =>{setEditedText(input.target.value)}}/>
                                     </Form.Group>
                                 </div>
                             </div>

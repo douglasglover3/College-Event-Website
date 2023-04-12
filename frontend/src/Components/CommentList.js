@@ -59,7 +59,7 @@ export default function CommentList ({userID, eventID}) {
                     </div>
                 </div>
                 :
-                <Button className="regular" type="button" style={{display: "flex", margin: "5px", height: "40px", width: "40%", alignSelf:"center",alignItems: "center", justifyContent: "center"}} onClick={() => setCreating(true)}><p>Create Comment</p></Button>
+                <Button className="regular" type="button" style={{display: "flex", margin: "5px", height: "40px", width: "40%", alignItems: "center", justifyContent: "center"}} onClick={() => setCreating(true)}><p>Create Comment</p></Button>
             }
         </div>
     );
