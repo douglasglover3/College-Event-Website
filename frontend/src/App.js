@@ -12,6 +12,7 @@ import EventPage from './Pages/EventPage';
 import CreateEvent from './Pages/CreateEvent';
 
 import UniversityPage from './Pages/UniversityPage'
+import UnauthorizedEvents from './Pages/UnauthorizedEvents';
 
 import Header from './Components/Header';
 
@@ -40,6 +41,7 @@ export default function App() {
                         <Route path="/newEvent/*" element={<CreateEvent user={user}/>}/>
                         <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
                         <Route path="/University" element={<UniversityPage user={user}/>}/>
+                        <Route path="/approveEvents" element={<UnauthorizedEvents user={user}/>}/>
                         <Route path="*" element={<Navigate to='/'/>}/>
                     </Routes>
                 </Router>

@@ -196,4 +196,46 @@ router.post("/getUniversityEvents", (req, res) => {
     });
 });
 
+router.post("/getUnauthorizedEvents", (req, res) => {
+    if (!req.body.universityName) {
+        res.status(500).send({
+          message: "Missing university name."
+        });
+    }
+    //Only includes events from authorized sponsors from the university
+    sql.query("SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsos R WHERE E.sponsor = R.rsoName AND R.universityName = ?) AND E.eventType = 'Unauthorized'", req.body.universityName, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while finding events."
+            });
+            console.log("Error getting events: ", { err: err.message });
+        }
+        else {
+            res.status(200).send(data);
+        }
+    });
+});
+
+router.post("/approveEvent", (req, res) => {
+    if (!req.body.eventID) {
+        res.status(500).send({
+          message: "Missing eventID."
+        });
+    }
+    //Only includes events from authorized sponsors from the university
+    sql.query("UPDATE events SET eventType = 'Public' WHERE eventID = ?", req.body.eventID, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while approving event."
+            });
+            console.log("Error approving: ", { err: err.message });
+        }
+        else {
+            res.status(200).send(data);
+        }
+    });
+});
+
 module.exports = router;

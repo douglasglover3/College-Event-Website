@@ -40,6 +40,7 @@ export default function Header({setUser, type}) {
                     <div style={{ display: "flex", height:"100%"}}>
                         <div style={{ display: "flex", height:"100%", marginRight: "30px"}}>
                             <NavigationButton className="white" urlTag="/University">University Profile</NavigationButton>
+                            <NavigationButton className="white" urlTag="/approveEvents">Approve Events</NavigationButton>
                         </div>
                     </div>
                     <div style={{ display: "flex", height:"100%", alignItems: "center"}}>

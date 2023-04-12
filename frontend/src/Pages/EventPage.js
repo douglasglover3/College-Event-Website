@@ -1,15 +1,35 @@
 import {SectionHeader} from '../Components/Section';
-import {useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import CommentList from "../Components/CommentList"
 import Rating from "../Components/Rating"
+import Axios from "axios"
+import { API_URL } from '../info';
+import {Button} from 'react-bootstrap';
 
 export default function EventPage({user}) {
     const event = useLocation().state.event;
+    let navigate = useNavigate();
+    console.log(user.userType, event.eventType)
+    function approveEvent() {
+        Axios.post(API_URL + "/events/approveEvent", {
+            eventID: event.eventID
+        })
+        .then((res) =>
+            navigate("/RSO"))
+        //Failure
+        .catch((res) =>
+            console.log(res.response.data.message));
+    }
 
     return (
         <div style={{display:"flex", flexDirection:"column"}}>
             <SectionHeader color="dark">
                 <h4>{event.sponsor}</h4>
+                {(user.type == "Super Admin" && event.eventType == "Unauthorized") ? 
+                    <Button className="light" type="button" style={{display: "flex", margin: "5px", height: "40px", width: "200px", alignItems: "center", justifyContent: "center"}} onClick={() => approveEvent()}>
+                        Approve Event
+                    </Button> 
+                : <></>}
             </SectionHeader>
             <div className="offwhite">
                 <div style={{marginInline:"100px", marginTop:"30px"}}>
