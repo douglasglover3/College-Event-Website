@@ -22,54 +22,29 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 
 export default function App() {
     //logged in users data
-    const [user, setUser] = useState({userID: "Doug2", type: "Student"});
-    
+    const [user, setUser] = useState(undefined);
+    //{userID: "Doug2", universityName:"University Of Central Florida", type: "Super Admin"}
     // if logged in
     if(user)
     {
-        if(user.type === "Student" || user.type === "Admin")
-            return (
-                <StrictMode>
-                    <Router>
-                        <Header setUser={setUser} type={user.type}/>
-                        <Routes>
-                            <Route path="/" element={<HomePage user={user}/>}/>
-                            <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                            <Route path="/RSO" element={<UserRSOs user={user}/>}/>
-                            <Route path="/newRSO" element={<CreateRso user={user}/>}/>
-                            <Route path="/Event/*" element={<EventPage user={user}/>}/>
-                            <Route path="/newEvent/*" element={<CreateEvent user={user}/>}/>
-                            <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
-                            <Route path="/University" element={<UniversityPage user={user}/>}/>
-                            <Route path="*" element={<Navigate to='/'/>}/>
-                        </Routes>
-                    </Router>
-                </StrictMode>
-            );
-        else if(user.type === "Super Admin")
-            return (
-                <StrictMode>
-                    <Router>
-                        <Header setUser={setUser} type={user.type}/>
-                        <Routes>
-                            <Route path="/" element={<Error errorType="Successful Login as Super Admin."/>}/>
-                            <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                            <Route path="*" element={<Error errorType="Page does not exist."/>}/>
-                        </Routes>
-                    </Router>
-                </StrictMode>
-            );
-        else
-            return (
-                <StrictMode>
-                    <Router>
-                        <Header/>
-                        <Routes>
-                            <Route path="/" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
-                        </Routes>
-                    </Router>
-                </StrictMode>
-            );
+        return (
+            <StrictMode>
+                <Router>
+                    <Header setUser={setUser} type={user.type}/>
+                    <Routes>
+                        <Route path="/" element={<HomePage user={user}/>}/>
+                        <Route path="/error" element={<Error errorType="Something went wrong. Our servers might be down. Please try again later."/>}/>
+                        <Route path="/RSO" element={<UserRSOs user={user}/>}/>
+                        <Route path="/newRSO" element={<CreateRso user={user}/>}/>
+                        <Route path="/Event/*" element={<EventPage user={user}/>}/>
+                        <Route path="/newEvent/*" element={<CreateEvent user={user}/>}/>
+                        <Route path="/RSO/*" element={<RSOPage user={user}/>}/>
+                        <Route path="/University" element={<UniversityPage user={user}/>}/>
+                        <Route path="*" element={<Navigate to='/'/>}/>
+                    </Routes>
+                </Router>
+            </StrictMode>
+        );
     }
     // if not logged in
     return (

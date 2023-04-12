@@ -13,6 +13,7 @@ export default function CreateEvent({user}) {
     const [eventType, setEventType] = useState("");
     const [eventDate, setEventDate] = useState("");
     const [eventTime, setEventTime] = useState("");
+    const [locationName, setLocationName] = useState("");
     const [contactPhone, setContactPhone] = useState("");
     const [contactEmail, setContactEmail] = useState("");
     const sponsor = useLocation().state.rso;
@@ -39,6 +40,7 @@ export default function CreateEvent({user}) {
                 eventDescription: eventDescription,
                 eventDate: eventDate,
                 eventTime: eventTime,
+                locationName: locationName,
                 contactPhone: contactPhone,
                 contactEmail: contactEmail,
                 sponsor: sponsor.rsoName
@@ -87,6 +89,10 @@ export default function CreateEvent({user}) {
                             <Form.Control type="time" placeholder='Event Time' onChange = {(input) =>{setEventTime(input.target.value)}}/>
                         </Form.Group>
                         <Form.Group className="mb-2">
+                            <Form.Label>Location</Form.Label>
+                            <Form.Control type="text" placeholder='Location' onChange = {(input) =>{setLocationName(input.target.value)}}/>
+                        </Form.Group>
+                        <Form.Group className="mb-2">
                             <Form.Label>Contact Phone</Form.Label>
                             <Form.Control type="tel" placeholder='Contact Phone Number' onChange = {(input) =>{setContactPhone(input.target.value)}}/>
                         </Form.Group>
@@ -96,7 +102,7 @@ export default function CreateEvent({user}) {
                         </Form.Group>
                         <Form.Group className="mb-2">
                             <Form.Label>Event Access</Form.Label>
-                            <Select className="dropdown" options={[{value:"RSO", label: "RSO members only"}, {value:"Private", label: "University Students only"}]} onChange={(input) => {setEventType(input.value)}}/>
+                            <Select className="dropdown" options={[{value:"RSO", label: "RSO members only"}, {value:"Private", label: "University Students only"}, {value:"Public", label: "Anyone can come (requires Super Admin Approval)"}]} onChange={(input) => {setEventType(input.value)}}/>
                         </Form.Group>
                         <Button className="regular" type="button" style={{height:"40px"}} onClick={() => createNewEvent()}>
                             Create

@@ -30,6 +30,10 @@ export default function EventPage({user}) {
                         </SectionHeader>
                         <p>{event.eventTime} on {event.eventDate}</p>
                         <SectionHeader color="dark">
+                            <h5>Location</h5>
+                        </SectionHeader>
+                        <p>{event.locationName}</p>
+                        <SectionHeader color="dark">
                             <h5>Contact Info</h5>
                         </SectionHeader>
                         <p>{event.contactPhone}</p>

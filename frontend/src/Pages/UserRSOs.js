@@ -26,11 +26,10 @@ export default function UserRSOs({user}) {
             <SectionHeader color="dark">
                 <h3>Your RSOs</h3>
             </SectionHeader>
-            <RSOList rsos={rsos} footer={
-                <div style={{display: "flex", justifyContent:"center", margin: "20px", width:"100%"}}>
-                    <NavigationButton className="white" style={{padding: "10px", margin: "5px", width:"300px"}} urlTag="/newRSO"><h5>Create New RSO</h5></NavigationButton>
-                </div>
-            }/>
+            <RSOList rsos={rsos}/>
+            <div style={{display: "flex", justifyContent:"center", margin: "20px", width:"100%"}}>
+                <NavigationButton className="white" style={{padding: "10px", margin: "5px", width:"300px"}} urlTag="/newRSO"><h5>Create New RSO</h5></NavigationButton>
+            </div>
         </div>
     );
 }

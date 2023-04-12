@@ -29,6 +29,7 @@ export default function CreateRso({user}) {
         if(validateInputs())
             Axios.post(API_URL + "/rsos/createRSO", {
                 rsoName: rsoName,
+                universityName: user.universityName,
                 userID: user.userID
             })
              //Success
@@ -64,7 +65,7 @@ export default function CreateRso({user}) {
                             <Form.Label>RSO Name</Form.Label>
                             <Form.Control type="text" placeholder='RSO Name' onChange = {(input) =>{setRSOName(input.target.value)}}/>
                         </Form.Group>
-                        <Button className="regular" type="button" onClick={() => createNewRSO()}>
+                        <Button className="regular" type="button" style={{height: "40px",}} onClick={() => createNewRSO()}>
                             Create
                         </Button>
                     <p style={{color: "red"}}>{errorText}</p>

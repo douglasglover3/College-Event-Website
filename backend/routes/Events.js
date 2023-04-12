@@ -23,11 +23,16 @@ router.post("/createEvent", (req, res) => {
           message: "Missing sponsor."
         });
     }
+
+    var eventType = req.body.eventType;
+    if(eventType != "Private" && eventType != "RSO")
+        eventType = "Unauthorized";
+
     // Create a new event
     const newEvent = new Event({
         eventID: crypto.randomBytes(64).toString("hex"),
         eventName: req.body.eventName,
-        eventType: req.body.eventType,
+        eventType: eventType,
         sponsor: req.body.sponsor,
         eventDescription: req.body.eventDescription,
         eventTime: req.body.eventTime,
@@ -71,6 +76,7 @@ router.post("/getUserEvents", (req, res) => {
     //RSO events
     if(eventType == "RSO")
     {
+        //Event is RSO members only
         sql.query(
             "SELECT * FROM events E WHERE EXISTS(SELECT * FROM membership M WHERE M.rsoName = E.sponsor AND M.userID = ?) AND E.eventType = 'RSO'"
         , req.body.userID, (err, data) => {
@@ -90,8 +96,9 @@ router.post("/getUserEvents", (req, res) => {
     //Private events
     else if(eventType == "Private")
     {
+        //Event is a private event from an authorized rso that shares the same university as the user
         sql.query(
-            "SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsoaffiliation A, affiliation A2 WHERE A.rsoName = E.sponsor AND A.universityName = A2.universityName AND A2.userID = ?) AND E.eventType = 'Private'"
+            "SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsos R, users U WHERE R.rsoName = E.sponsor AND R.authorized = true AND R.universityName = U.universityName AND U.userID = ?) AND E.eventType = 'Private'"
         , req.body.userID, (err, data) => {
             if (err) {
                 res.status(500).send({
@@ -108,6 +115,7 @@ router.post("/getUserEvents", (req, res) => {
     //Public events
     else if(eventType == "Public")
     {
+
         sql.query(
             "SELECT * FROM events WHERE eventType = 'Public'"
         , req.body.userID, (err, data) => {
@@ -128,7 +136,7 @@ router.post("/getUserEvents", (req, res) => {
     {
         sql.query(
             `SELECT * FROM events E WHERE (EXISTS(SELECT * FROM membership M WHERE M.rsoName = E.sponsor AND M.userID = ?) AND E.eventType = 'RSO')
-            OR (EXISTS(SELECT * FROM rsoaffiliation A, affiliation A2 WHERE A.rsoName = E.sponsor AND A.universityName = A2.universityName AND A2.userID = ?) AND E.eventType = 'Private')
+            OR (EXISTS(SELECT * FROM rsos R, users U WHERE R.rsoName = E.sponsor AND R.authorized = true AND R.universityName = U.universityName AND U.userID = ?) AND E.eventType = 'Private')
             OR (E.eventType = 'Public')
             `
         , [req.body.userID, req.body.userID], (err, data) => {
@@ -173,8 +181,8 @@ router.post("/getUniversityEvents", (req, res) => {
           message: "Missing University Name."
         });
     }
-
-    sql.query("SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsoaffiliation A WHERE E.sponsor = A.rsoName AND A.universityName = ?) AND E.eventType = 'Public'", req.body.universityName, (err, data) => {
+    //Only includes events from authorized sponsors from the university
+    sql.query("SELECT * FROM events E WHERE EXISTS(SELECT * FROM rsos R WHERE E.sponsor = R.rsoName AND R.authorized = true AND R.universityName = ?) AND E.eventType = 'Public'", req.body.universityName, (err, data) => {
         if (err) {
             res.status(500).send({
                 message:

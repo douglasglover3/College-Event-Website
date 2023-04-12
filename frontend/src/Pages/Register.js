@@ -47,7 +47,7 @@ export default function Register({setUser}) {
                 userID: userID,
                 email: email,
                 hashedPass: await getHash(password),
-                university: university,
+                universityName: university,
                 userType: "Student"
             })
              //Success

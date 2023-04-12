@@ -18,13 +18,13 @@ export default function Header({setUser, type}) {
                     </button>
                     <div style={{ display: "flex", height:"100%"}}>
                         <div style={{ display: "flex", height:"100%", marginRight: "30px"}}>
-                        <NavigationButton className="white" urlTag="/University">My University</NavigationButton>
+                            <NavigationButton className="white" urlTag="/University">My University</NavigationButton>
                             <NavigationButton className="white" urlTag="/RSO">My RSOs</NavigationButton>
                         </div>
                     </div>
                     <div style={{ display: "flex", height:"100%", alignItems: "center"}}>
                         <Button className="white" type="button" onClick={() => {navigate("/"); setUser(undefined)}}>
-                            <p>Sign Out</p>
+                            Sign Out
                         </Button>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ export default function Header({setUser, type}) {
                     </button>
                     <div style={{ display: "flex", height:"100%"}}>
                         <div style={{ display: "flex", height:"100%", marginRight: "30px"}}>
-                            <NavigationButton className="white" urlTag="error">University Profile</NavigationButton>
+                            <NavigationButton className="white" urlTag="/University">University Profile</NavigationButton>
                         </div>
                     </div>
                     <div style={{ display: "flex", height:"100%", alignItems: "center"}}>

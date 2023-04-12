@@ -3,15 +3,15 @@ const router = express.Router()
 
 const sql = require("../models/db.js");
 
-router.post("/getUserUniversity", (req, res) => {
-    if (!req.body.userID) {
+router.post("/getUniversityData", (req, res) => {
+    if (!req.body.universityName) {
         res.status(500).send({
-          message: "Missing User ID."
+          message: "Missing University Name."
         });
     }
     
-    // Find target user in the database
-    sql.query("SELECT * FROM universities U WHERE EXISTS(SELECT * FROM affiliation A WHERE U.universityName = A.universityName AND A.userID = ?)", req.body.userID, (err, data) => {
+    // Find target university in the database
+    sql.query("SELECT DISTINCT * FROM universities WHERE universityName = ?", req.body.universityName, (err, data) => {
         if (err) {
             console.log("Error getting User University: ", { err: err.message});
         }

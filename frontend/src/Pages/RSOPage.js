@@ -97,10 +97,14 @@ export default function RSOPage({user}) {
                     <SectionHeader color="regular"><h5>RSO Members</h5></SectionHeader>
                     <div className="light" style={{paddingBlock:"10px"}}>
                         {memberList.map((user) => 
-                            <div className="white" style={{marginBlock:"5px", marginInline:"10px"}} key={user.userID}>
+                            <div className="white" style={{display:"flex", flexDirection:"row", marginBlock:"5px", marginInline:"10px"}} key={user.userID}>
+                                <h5 style={{color:"blue", padding:"5px"}} >{user.userType}</h5>
                                 <h5 style={{padding:"5px"}} >{user.userID}</h5>
                             </div>
                         )}
+                        {rso.authorized ? <></> : <p style={{marginBlock:"10px", marginInline:"10px"}}>
+                            This RSO needs at least five members.
+                        </p>}
                     </div>
                 </div>
             </div>

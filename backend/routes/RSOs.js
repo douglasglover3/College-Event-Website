@@ -8,7 +8,12 @@ const RSO = require("../models/RSOs.js");
 router.post("/createRSO", (req, res) => {
     if (!req.body.rsoName) {
         res.status(400).send({
-          message: "Missing Name."
+          message: "Missing RSO name."
+        });
+    }
+    else if (!req.body.universityName) {
+        res.status(500).send({
+          message: "Missing university name."
         });
     }
     else if (!req.body.userID) {
@@ -19,6 +24,7 @@ router.post("/createRSO", (req, res) => {
     // Create a new rso
     const newRSO = new RSO({
         rsoName: req.body.rsoName,
+        universityName: req.body.universityName
     });
 
     // Find if rso name is taken
@@ -218,7 +224,7 @@ router.post("/isUserMember", (req, res) => {
                     else {
                         //User is not admin
                         if(data.length == 0)
-                            res.status(200).send({isMember:false, isAdmin:false});
+                            res.status(200).send({isMember:true, isAdmin:false});
                         //User is admin
                         else
                             res.status(200).send({isMember:true, isAdmin:true});
@@ -235,7 +241,7 @@ router.post("/getUniversityRSOs", (req, res) => {
         });
     }
 
-    sql.query("SELECT * FROM rsos R WHERE EXISTS(SELECT * FROM rsoaffiliation A WHERE R.rsoName = A.rsoName AND A.universityName = ?)", req.body.universityName, (err, data) => {
+    sql.query("SELECT * FROM rsos WHERE universityName = ? AND rsos.authorized = true", req.body.universityName, (err, data) => {
         if (err) {
             res.status(500).send({
                 message:

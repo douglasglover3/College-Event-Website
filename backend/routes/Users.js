@@ -16,12 +16,12 @@ router.post("/createUser", (req, res) => {
       message: "User ID is too short"
     });
   }
-  if (!req.body.university) {
+  else if (!req.body.universityName) {
     res.status(400).send({
       message: "Missing University."
     });
   }
-  if (!req.body.userType) {
+  else if (!req.body.userType) {
     res.status(500).send({
       message: "Type is missing."
     });
@@ -31,10 +31,11 @@ router.post("/createUser", (req, res) => {
   const newUser = new User({
     userID: req.body.userID,
     email: req.body.email,
+    universityName: req.body.universityName,
     hashedPass: req.body.hashedPass,
     userType: req.body.userType
   });
-
+  
   // Find if userID already exists
   sql.query("SELECT * FROM users WHERE userID = ?", newUser.userID, (err, data) => {
     if (err) {
@@ -56,23 +57,12 @@ router.post("/createUser", (req, res) => {
             console.log("Error 1 creating User: ", { err: err.message, ...newUser });
         }
         else {
-          sql.query("INSERT INTO affiliation(userID, universityName) VALUES(?, ?)", [req.body.userID, req.body.university], (err, data3) => {
-            if (err) {
-              res.status(500).send({
-                  message:
-                      err.message || "Some error occurred while creating the user."
-              });
-              console.log("Error creating User: ", { err: err.message, ...newUser });
-            }
-            else {
-              res.status(200).send({
-                userID: req.body.userID,
-                university: req.body.university,
-                type: "Student"
-              });
-              console.log("Successfully created User: ", req.body.userID, req.body.userType);
-            }
+          res.status(200).send({
+            userID: req.body.userID,
+            universityName: req.body.universityName,
+            type: req.body.userType
           });
+          console.log("Successfully created User: ", req.body.userID, req.body.universityName, req.body.userType);
         }
       });
     }
@@ -117,10 +107,10 @@ router.post("/loginUser", (req, res) => {
         {
           res.status(200).send({
             userID: data[0].userID,
-            university: data[0].university,
+            universityName: data[0].universityName,
             type: data[0].userType
           });
-          console.log("Successfully logged in User: ", data[0].userID, data[0].userType);
+          console.log("Successfully logged in User: ", data[0].userID, data[0].universityName, data[0].userType);
         }
         //Password Incorrect
         else {

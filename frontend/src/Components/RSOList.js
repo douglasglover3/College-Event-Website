@@ -12,7 +12,6 @@ export function RSOList ({rsos, footer}) {
                     <SectionHeader color="light"></SectionHeader>
                 </div>
             )}
-            {footer}
         </div>
     );
 }

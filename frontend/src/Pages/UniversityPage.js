@@ -1,4 +1,4 @@
-import {SectionHeader} from '../Components/Section';
+import {Section, SectionHeader} from '../Components/Section';
 import {useState, useEffect} from "react";
 import {RSOList} from '../Components/RSOList';
 import EventList from '../Components/EventList';
@@ -6,13 +6,13 @@ import Axios from "axios"
 import { API_URL } from '../info';
 
 export default function UniversityPage({user}) {
-    const [university, setUniversity] = useState({universityName: ""});
+    const [university, setUniversity] = useState({universityName: user.universityName});
     const [rsos, setRsos] = useState([]);
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        Axios.post(API_URL + "/universities/getUserUniversity", {
-            userID: user.userID
+        Axios.post(API_URL + "/universities/getUniversityData", {
+            universityName: user.universityName
         })
         //Success
         .then((res) => {
@@ -36,7 +36,6 @@ export default function UniversityPage({user}) {
             .catch((res) =>
                 console.log(res.response.data.message));
         })
-
         //Failure
         .catch((res) =>
             console.log(res.response.data.message));
@@ -47,18 +46,28 @@ export default function UniversityPage({user}) {
     return (
         <div style={{display:"flex", flexDirection:"column"}}>
             <SectionHeader color="dark">
-                <h3>{university.universityName}</h3>
+                <h3>University Profile</h3>
             </SectionHeader>
             <div style={{display:"flex", justifyContent:"space-between", marginInline:"100px"}}>
-                <div style={{display:"flex",  width:"50%", flexDirection:"column"}}>
+                <div style={{display:"flex",  width:"60%", flexDirection:"column"}}>
+                    <SectionHeader color="regular"><h4>{university.universityName}</h4></SectionHeader>
+                    <div className="white">
+                        <div className="white" style={{width:"100%"}}>
+                            <p style={{paddingInline:"60px", paddingBlock:"20px"}}>{university.description}</p>
+                        </div>
+                        <div className="light" style={{width:"100%", paddingInline:"40px", paddingBlock:"10px"}}>
+                            <p><b>Location: </b>{university.locationName}</p>
+                            <p><b>Student Population: </b>{university.numOfStudents}</p>
+                        </div>
+                    </div>
                     <SectionHeader color="regular"><h5>Upcoming Public Events</h5></SectionHeader>
                     <EventList events={events}/>
                 </div>
-                <div style={{display:"flex", width:"30%", flexDirection:"column", alignSelf:"end"}}>
+                <div style={{display:"flex", width:"30%", flexDirection:"column"}}>
                     <SectionHeader color="regular">
                         <h4>University RSOs</h4>
                     </SectionHeader>
-                    <RSOList rsos={rsos} footer={<></>}/>
+                    <RSOList rsos={rsos}/>
                 </div>
             </div>
         </div>
