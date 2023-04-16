@@ -7,13 +7,13 @@ export default function EventList ({events}) {
             {events.map((event) => 
                 <div key={event.eventName}>
                     <SectionHeader color="white">
-                        <div>
+                        <div style={{width:"30%", justifyContent:"end"}}>
                             <h5>{event.eventName}</h5> 
                             <h6>{event.sponsor}</h6>
                         </div>
-                        <div>
-                            <h6>{event.eventTime}</h6>
-                            <h6>{event.eventDate}</h6> 
+                        <div style={{width:"30%", justifyContent:"end"}}>
+                            <h6 style={{alignSelf:"end"}}>{event.eventTime}</h6>
+                            <h6 style={{alignSelf:"end"}}>{event.eventDate}</h6> 
                         </div>
                         <NavigationButton className="dark" urlTag={"/Event/" + event.eventName} extraData={{ event: event}}>View Event</NavigationButton>
                     </SectionHeader>
